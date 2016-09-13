@@ -25,7 +25,6 @@ public class ChipsThread extends Thread{
     private SurfaceHolder surfaceHolder;
 
     private ArrayList<Sprite> objects = new ArrayList<Sprite>();
-    private Scene scene;
     
     private Bitmap bitmap;
     private Canvas canvas;
@@ -47,7 +46,7 @@ public class ChipsThread extends Thread{
         canvas = new Canvas(bitmap);
         paint = new Paint();
         
-    	scene = new Scene(200);
+    	Scene.init(200);
         
     }
 
@@ -83,7 +82,7 @@ public class ChipsThread extends Thread{
 		if (!runFlag) return;
 		
 		for (Sprite o: objects){
-			 o.step(objects, scene);
+			 o.calc();
 		 }
 	 
 		canvas.drawColor(0, PorterDuff.Mode.CLEAR);
@@ -92,10 +91,10 @@ public class ChipsThread extends Thread{
 		paint.setColor(Color.WHITE);
 		paint.setStyle(Paint.Style.FILL_AND_STROKE);
 	 
-		scene.paint(canvas, paint);
+		//Scene.draw(canvas, paint);
 	 
 		for (Sprite o: objects)
-			o.paint(canvas,  paint);
+			o.draw(canvas);
 	 		
 		if (drawThread != null)
 			drawThread.setGlassBitmap(bitmap);
@@ -104,6 +103,23 @@ public class ChipsThread extends Thread{
 	public synchronized void  reset() {
 		//runFlag = false;
 		objects.clear();
+		
+		int x = -25;
+		int y = -50;
+		for (int i = 0; i < 7; i++){
+			//if (i == 3)
+			objects.add(new Sprite(context, objects, i, x, y));
+			x = x + 50;
+			if (i == 1){
+				x = -50;
+				y = 0;
+			} else if (i == 4){
+				x = -25;
+				y = 50;
+			}
+		}	
+			
+		/*
 		int maxCount = 6;
 		int index = 0;
 		for (int i = 0; i <= maxCount; i++){
@@ -121,51 +137,53 @@ public class ChipsThread extends Thread{
 			int size = (int) (Math.random()*40+10);
 			switch(index){
 			case 0:
-				objects.add(new Sprite(context, size, R.drawable.chip0, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip0, objects,Scene));
 				break;
 			case 1:
-				objects.add(new Sprite(context, size, R.drawable.chip1, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip1, objects,Scene));
 				break;
 			case 2:
-				objects.add(new Sprite(context, size, R.drawable.chip2, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip2, objects,Scene));
 				break;
 			case 3:
-				objects.add(new Sprite(context, size, R.drawable.chip3, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip3, objects,Scene));
 				break;
 			case 4:
-				objects.add(new Sprite(context, size, R.drawable.chip4, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip4, objects,Scene));
 				break;
 			case 5:
-				objects.add(new Sprite(context, size, R.drawable.chip5, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip5, objects,Scene));
 				break;
 			case 6:
-				objects.add(new Sprite(context, size, R.drawable.chip6, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip6, objects,Scene));
 				break;
 			case 7:
-				objects.add(new Sprite(context, size, R.drawable.chip7, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip7, objects,Scene));
 				break;
 			case 8:
-				objects.add(new Sprite(context, size, R.drawable.chip8, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip8, objects,Scene));
 				break;
 			case 9:
-				objects.add(new Sprite(context, size, R.drawable.chip9, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip9, objects,Scene));
 				break;
 			case 10:
-				objects.add(new Sprite(context, size, R.drawable.chip10, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip10, objects,Scene));
 				break;
 			case 11:
-				objects.add(new Sprite(context, size, R.drawable.chip11, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip11, objects,Scene));
 				break;
 			case 12:
-				objects.add(new Sprite(context, size, R.drawable.chip12, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip12, objects,Scene));
 				break;
 			case 13:
-				objects.add(new Sprite(context, size, R.drawable.chip13, objects,scene));
+				objects.add(new Sprite(context, size, R.drawable.chip13, objects,Scene));
 				break;
 			}
 			
 		}
-		scene.reset();
+		*/
+		
+		//Scene.reset();
 		//runFlag = true;
 	}
 
